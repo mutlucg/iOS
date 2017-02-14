@@ -1,55 +1,61 @@
 //
 //  ViewController.swift
-//  CardGame
+//  hw2
 //
-//  Created by Student on 09/02/2017.
+//  Created by Student on 14/02/2017.
 //  Copyright © 2017 OzU. All rights reserved.
 //
 
 import UIKit
 
 class ViewController: UIViewController {
-
-
-    @IBOutlet weak var PlayButton: UIButton!
-    @IBOutlet weak var winLabel: UILabel!
-    @IBOutlet weak var leftImageView: UIImageView!
-    @IBOutlet weak var rightImageView: UIImageView!
     
-    var cardArray : [Int] = []
+    @IBOutlet weak var gameLabel: UILabel!
+    @IBOutlet weak var playButton: UIButton!
+    @IBOutlet weak var textField: UITextField!
+    @IBOutlet weak var arrowImage: UIImageView!
     
-    func shuffle(){
-        for i in 1...13 {
-            cardArray.append(i)
-        }
-    }
+    var randomNum : Int = 0
+    var guessCounter : Int = 0
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
+        randomizeNumber()
     }
-
+    
+   
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 
-    @IBAction func playTheGame(_ sender: Any) {
-        let leftCardIndex = Int(arc4random_uniform(UInt32(cardArray.count)))
-        leftImageView.image = UIImage(named: "card\(cardArray[leftCardIndex])")
-        cardArray.remove(at : leftCardIndex)
-        let rightCardIndex = Int(arc4random_uniform(UInt32(cardArray.count)))
-        rightImageView.image = UIImage(named: "card\(cardArray[rightCardIndex])")
-        cardArray.remove(at : rightCardIndex)
-        
-        
-        if leftCardIndex > rightCardIndex{
-            winLabel.text = "Player 1 wins"
-        }else{
-            winLabel.text = "Player 2 wins"
+    @IBAction func guessTheNumber(_ sender: Any) {
+        if(guessCounter == 3){
+            playButton.setTitle("Restart?", for: .normal)
+            arrowImage.image = UIImage(named: "lost")
         }
-        
+        var guessedNumber : Int?
+        if(playButton.title(for: .normal) == "Restart?"){
+            randomizeNumber()
+            playButton.setTitle("Guess!",for: .normal)
+        }else if(playButton.title(for: .normal) == "Guess!"){
+            guessCounter += 1
+            guessedNumber = Int(textField.text!)
+            if(guessedNumber! > randomNum){
+                arrowImage.image = UIImage(named: "Down")
+            }else if(guessedNumber! < randomNum){
+                arrowImage.image = UIImage(named: "Up")
+            }else {
+                guessCounter = 0
+                arrowImage.image = UIImage(named: "tick")
+                playButton.setTitle("Restart?", for: .normal)
+            }
+        }
+      }
+    
+    
+    func randomizeNumber(){
+         randomNum = Int(arc4random_uniform(10)+1)
     }
-
 }
-
