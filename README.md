@@ -1,3 +1,3 @@
-# iOS
-https://www.iconfinder.com/icons/22536/download/png/64
-https://www.iconfinder.com/icons/22643/download/png/64
+# Ozyegin University CS392-iOS Dev
+
+Repo for homeworks assigned for cource CS392-iOS Application Development.
